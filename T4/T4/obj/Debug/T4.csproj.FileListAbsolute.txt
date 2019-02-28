@@ -1,0 +1,7 @@
+E:\work\C#\Homework\Homework1\T4\T4\bin\Debug\T4.exe.config
+E:\work\C#\Homework\Homework1\T4\T4\bin\Debug\T4.exe
+E:\work\C#\Homework\Homework1\T4\T4\bin\Debug\T4.pdb
+E:\work\C#\Homework\Homework1\T4\T4\obj\Debug\T4.csprojAssemblyReference.cache
+E:\work\C#\Homework\Homework1\T4\T4\obj\Debug\T4.csproj.CoreCompileInputs.cache
+E:\work\C#\Homework\Homework1\T4\T4\obj\Debug\T4.exe
+E:\work\C#\Homework\Homework1\T4\T4\obj\Debug\T4.pdb
