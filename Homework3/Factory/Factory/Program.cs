@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace factory.cs
+namespace Factory
 {
     class Program
     {
@@ -60,7 +60,7 @@ namespace factory.cs
         //测试代码
         class Client
         {
-            public static void Main(String [] args)
+            public static void Main(String[] args)
             {
                 LoggerFactory factory;
                 Logger logger;

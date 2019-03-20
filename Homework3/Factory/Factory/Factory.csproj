@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D4EF9B92-D59C-43CD-810A-ECF5D8B1F386}</ProjectGuid>
+    <ProjectGuid>{E4265A2F-0977-4223-B037-CED76C82FB49}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>factory.cs</RootNamespace>
-    <AssemblyName>factory.cs</AssemblyName>
+    <RootNamespace>Factory</RootNamespace>
+    <AssemblyName>Factory</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
