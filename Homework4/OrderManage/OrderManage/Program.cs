@@ -12,9 +12,6 @@ namespace OrderManage
         public static void Main(string[] args)
         {
             int key=0;
-            /*OrderService os = new OrderService();
-            Order order1 = new Order(1, "ew", "ww");
-            os.AddOrder(order1);*/
             while (key != 6)
             {
 
@@ -24,7 +21,7 @@ namespace OrderManage
                 Console.WriteLine("--------------------------");
                 Console.WriteLine("        1.添加订单        ");
                 Console.WriteLine("        2.删除订单        ");
-                Console.WriteLine("        3.查询订单        ");
+                Console.WriteLine("        3.修改订单        ");
                 Console.WriteLine("        4.查询订单        ");
                 Console.WriteLine("        5.显示订单        ");
                 Console.WriteLine("        6.退出系统        ");
@@ -42,6 +39,7 @@ namespace OrderManage
                         break;
                     case 3:
                         //修改订单
+                        MyModifyOrder();
                         break;
                     case 4:
                         //查询订单
@@ -59,6 +57,7 @@ namespace OrderManage
         public static void MyAddOrder()
         {
             OrderService os = new OrderService();
+            Order o = new Order();
             Console.Write("输入订单号：");
             int id = int.Parse(Console.ReadLine());
             while (os.CheckOrderId(id) != null)
@@ -78,11 +77,12 @@ namespace OrderManage
 
             Goods goods = new Goods(gname, unitPrice, num);
             Order order = new Order(id, cname, gname);
-            OrderDetails details = new OrderDetails(id, cname, goods);
-
-            Order o = new Order();
-            o.AddDetails(details);
+            OrderDetails dts = new OrderDetails(id, cname, goods);
+            
+            o.AddDetails(dts);
             os.AddOrder(order);
+            Console.ReadKey();
+            
 
         }
         //删除订单
@@ -100,11 +100,39 @@ namespace OrderManage
             else
                 os.DeleteOrder(os.CheckOrderId(id));
         }
+        //修改订单
+        public  static void MyModifyOrder()
+        {
+            OrderService os = new OrderService();
+            Order o = new Order();
+            Console.Write("输入要修改的订单号：");
+            int id = int.Parse(Console.ReadLine());
+            o = os.CheckOrderId(id);
+            Console.Write("输入选项（1.客户名 2.商品名 3.商品数量）：");
+            int mkey = int.Parse(Console.ReadLine());
+            switch(mkey)
+            {
+                case 1:
+                    Console.Write("输入修改后的客户名：");
+                    o.CName = Console.ReadLine();
+                    break;
+                case 2:
+                    Console.Write("输入修改后的商品名：");
+                    o.GName = Console.ReadLine();
+                    break;
+                case 3:
+                    Console.Write("输入修改后的商品数量：");
+                    //o. = Console.ReadLine();
+                    break;
+
+            }
+        }
         //查询订单
         public static void MyCheckOrder()
         {
             OrderService os = new OrderService();
             Order o = new Order();
+            OrderDetails od = new OrderDetails();
             Console.Write("输入选项（1.订单号 2.客户名 3.商品名）：");
             int ckey = int.Parse(Console.ReadLine());
             switch(ckey)
@@ -127,8 +155,10 @@ namespace OrderManage
                 Console.WriteLine("订单不存在！");
             else
             {
-                Console.WriteLine("订单号\t客户名\t商品名");
-                Console.WriteLine(o.Id + "\t" + o.CName + "\t" + o.GName);
+                od = o.CheckOrderDtailsId(o.Id);
+                Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
+                Console.WriteLine(o.Id + "\t" + o.CName + "\t" + o.GName+"\t"+od.Goods.Price
+                                  +"\t"+od.Goods.Number+"\t"+(od.Goods.Price* od.Goods.Number));
             }
             Console.ReadKey();
         }
@@ -136,7 +166,7 @@ namespace OrderManage
         public static void ShowOrder()
         {
             OrderService os = new OrderService();
-            Console.WriteLine("订单号\t客户名\t商品名");
+            Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
             os.DisplayOrder();
             Console.ReadKey();
         }

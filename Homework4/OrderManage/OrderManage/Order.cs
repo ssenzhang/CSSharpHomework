@@ -8,9 +8,10 @@ namespace OrderManage
 {
 	class Order
 	{
-       private List<OrderDetails> details = new List<OrderDetails>();
-		//订单号，客户名，货物名，数量
-		private string cusName;
+        //订单细节储存在DetailsList中
+        private static List<OrderDetails> DetailsList = new List<OrderDetails>();
+        
+        private string cusName;
 		private string goodsName;
 		private	int orderId;
 
@@ -56,20 +57,20 @@ namespace OrderManage
 				goodsName=value;
 			}
 		}
-        public List<OrderDetails> Details
+        //添加details
+        public void AddDetails(OrderDetails dts)
         {
-            get
-            {
-                return details;
-            }
-            set
-            {
-                details = value;
-            }
+            DetailsList.Add(dts);
         }
-		public void AddDetails(OrderDetails details)
+        //根据订单号查询details
+        public OrderDetails CheckOrderDtailsId(int id)
         {
-            Details.Add(details);
+            foreach (OrderDetails od in DetailsList)
+            {
+                if (od.Id == id)
+                    return od;
+            }
+            return null;
         }
-	}
+    }
 }

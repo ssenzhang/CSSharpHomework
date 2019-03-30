@@ -7,13 +7,16 @@ using System.Threading.Tasks;
 namespace OrderManage
 {
 	class OrderDetails
-	{
+	{ 
 	    //订单号，客户名，货物
 	    private	int orderId;
 		private string cusName;
 		private Goods orGoods;
 		
+        public OrderDetails()
+        {
 
+        }
 		public OrderDetails(int id,string name,Goods goods)
 		{
 			orderId=id;
@@ -53,5 +56,5 @@ namespace OrderManage
 				orGoods=value;
 			}
 		}
-	}
+    }
 }		
