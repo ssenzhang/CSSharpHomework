@@ -14,9 +14,7 @@ namespace OrderManage
             int key=0;
             while (key != 6)
             {
-
                 Console.Clear();
-                //菜单
                 Console.WriteLine("*******订单管理系统*******");
                 Console.WriteLine("--------------------------");
                 Console.WriteLine("        1.添加订单        ");
