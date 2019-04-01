@@ -105,10 +105,17 @@ namespace OrderManage
             Order o = new Order();
             Console.Write("输入要修改的订单号：");
             int id = int.Parse(Console.ReadLine());
+            while (os.CheckOrderId(id) == null)
+            {
+                Console.WriteLine("订单不存在！");
+                Console.ReadKey();
+                return;
+            }
             o = os.CheckOrderId(id);
             Console.Write("输入选项（1.客户名 2.商品名 3.商品数量）：");
             int mkey = int.Parse(Console.ReadLine());
-            switch(mkey)
+            
+            switch (mkey)
             {
                 case 1:
                     Console.Write("输入修改后的客户名：");
@@ -120,7 +127,7 @@ namespace OrderManage
                     break;
                 case 3:
                     Console.Write("输入修改后的商品数量：");
-                    //o. = Console.ReadLine();
+                    o.CheckOrderDtailsId(id).Goods.Number= int.Parse(Console.ReadLine());
                     break;
 
             }
@@ -138,25 +145,21 @@ namespace OrderManage
                 case 1:
                     Console.Write("输入订单号：");
                     o=os.CheckOrderId(int.Parse(Console.ReadLine()));
+                    os.DisplayOne(o);
                     break;
                 case 2:
                     Console.Write("输入客户名：");
-                    o=os.CheckOrderCusName(Console.ReadLine());
+                    foreach(Order ot in os.CheckOrderCusName(Console.ReadLine()))
+                    {
+                        os.DisplayOne(ot);
+                    }
                     break;
                 case 3:
                     Console.Write("输入商品名：");
                     o=os.CheckOrderGoodsNmae(Console.ReadLine());
+                    os.DisplayOne(o);
                     break;
 
-            }
-            if (o == null)
-                Console.WriteLine("订单不存在！");
-            else
-            {
-                od = o.CheckOrderDtailsId(o.Id);
-                Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
-                Console.WriteLine(o.Id + "\t" + o.CName + "\t" + o.GName+"\t"+od.Goods.Price
-                                  +"\t"+od.Goods.Number+"\t"+(od.Goods.Price* od.Goods.Number));
             }
             Console.ReadKey();
         }

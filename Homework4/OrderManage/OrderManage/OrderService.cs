@@ -55,14 +55,15 @@ namespace OrderManage
             return null;
         }
         //根据客户名查询
-        public Order CheckOrderCusName(string name)
+        public List<Order> CheckOrderCusName(string name)
         {
+            List<Order> tmp = new List<Order>();
             foreach (Order o in OrderList)
             {
                 if (o.CName == name)
-                    return o;
+                    tmp.Add(o);
             }
-            return null;
+            return tmp;
         }
         //根据商品名查询
         public Order CheckOrderGoodsNmae(String name)
@@ -74,16 +75,25 @@ namespace OrderManage
             }
             return null;
         }
-
-        //显示订单
+        //显示某个订单
+        public void DisplayOne(Order o)
+        {
+            if (o == null)
+                Console.WriteLine("订单不存在");
+            else
+            {
+                OrderDetails odts = new OrderDetails();
+                odts = o.CheckOrderDtailsId(o.Id);
+                Console.Write(o.Id + "\t" + o.CName + "\t" + o.GName);
+                Console.WriteLine("\t" + odts.Goods.Price + "\t" + odts.Goods.Number + "\t" + (odts.Goods.Number * odts.Goods.Price));
+            }
+        }
+        //显示全部订单
         public void DisplayOrder()
         {
             foreach (Order o in OrderList)
             {
-                OrderDetails od = new OrderDetails();
-                od = o.CheckOrderDtailsId(o.Id);
-                Console.Write(o.Id + "\t" + o.CName + "\t" + o.GName);
-                Console.WriteLine("\t" + od.Goods.Price + "\t" + od.Goods.Number + "\t" + (od.Goods.Number * od.Goods.Price));
+                DisplayOne(o);
             }
         }
     }
