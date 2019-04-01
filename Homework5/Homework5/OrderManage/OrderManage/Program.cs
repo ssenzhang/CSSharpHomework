@@ -47,6 +47,10 @@ namespace OrderManage
                         //显示订单
                         ShowOrder();
                         break;
+                    default:
+                        //错误选项
+                        //key = 6;
+                        break;
                 }
             }
 
@@ -57,7 +61,7 @@ namespace OrderManage
             OrderService os = new OrderService();
             Order o = new Order();
             Console.Write("输入订单号：");
-            int id = int.Parse(Console.ReadLine());
+            int id =PositiveNumber();
             while (os.CheckOrderId(id) != null)
             {
                 Console.WriteLine("订单已存在！");
@@ -65,13 +69,13 @@ namespace OrderManage
                 return;
             }
             Console.Write("输入客户名：");
-            string cname = Console.ReadLine();
+            string cname = StringNotNull();
             Console.Write("输入商品名：");
-            string gname = Console.ReadLine();
+            string gname = StringNotNull();
             Console.Write("输入商品单价：");
-            float unitPrice = float.Parse(Console.ReadLine());
+            float unitPrice = (float)(PositiveNumber());
             Console.Write("输入商品数量：");
-            int num = int.Parse(Console.ReadLine());
+            int num = PositiveNumber();
 
             Goods goods = new Goods(gname, unitPrice, num);
             Order order = new Order(id, cname, gname);
@@ -80,15 +84,13 @@ namespace OrderManage
             o.AddDetails(dts);
             os.AddOrder(order);
             Console.ReadKey();
-            
-
         }
         //删除订单
         public  static void MyDeleteOrder()
         {
             OrderService os = new OrderService();
             Console.Write("输入要删除的订单号：");
-            int id = int.Parse(Console.ReadLine());
+            int id = PositiveNumber();
             if (os.CheckOrderId(id) == null)
             {
                 Console.WriteLine("订单不存在！");
@@ -104,11 +106,18 @@ namespace OrderManage
             OrderService os = new OrderService();
             Order o = new Order();
             Console.Write("输入要修改的订单号：");
-            int id = int.Parse(Console.ReadLine());
+            int id = PositiveNumber();
+            while (os.CheckOrderId(id) == null)
+            {
+                Console.WriteLine("订单不存在！");
+                Console.ReadKey();
+                return;
+            }
             o = os.CheckOrderId(id);
             Console.Write("输入选项（1.客户名 2.商品名 3.商品数量）：");
             int mkey = int.Parse(Console.ReadLine());
-            switch(mkey)
+            
+            switch (mkey)
             {
                 case 1:
                     Console.Write("输入修改后的客户名：");
@@ -120,7 +129,7 @@ namespace OrderManage
                     break;
                 case 3:
                     Console.Write("输入修改后的商品数量：");
-                    //o. = Console.ReadLine();
+                    o.CheckOrderDtailsId(id).Goods.Number= int.Parse(Console.ReadLine());
                     break;
 
             }
@@ -137,26 +146,45 @@ namespace OrderManage
             {
                 case 1:
                     Console.Write("输入订单号：");
-                    o=os.CheckOrderId(int.Parse(Console.ReadLine()));
+                    o=os.CheckOrderId(PositiveNumber());
+                    if (o == null)
+                        Console.WriteLine("订单不存在！");
+                    else
+                    {
+                        Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
+                        os.DisplayOne(o);
+                    }
                     break;
                 case 2:
                     Console.Write("输入客户名：");
-                    o=os.CheckOrderCusName(Console.ReadLine());
+                    string str1 = StringNotNull();
+                    if (os.CheckOrderCusName(str1) == null)
+                        Console.WriteLine("订单不存在！");
+                    else
+                    {
+                        Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
+                        foreach (Order ot in os.CheckOrderCusName(str1))
+                        {
+                            os.DisplayOne(ot);
+                        }
+                    }
                     break;
                 case 3:
                     Console.Write("输入商品名：");
-                    o=os.CheckOrderGoodsNmae(Console.ReadLine());
+                    string str2 = StringNotNull();
+                    if (os.CheckOrderGoodsName(str2) == null)
+                    {
+                        Console.WriteLine("订单不存在！");
+                    }
+                    else
+                    {
+                        Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
+                        foreach (Order ot in os.CheckOrderGoodsName(str2))
+                        {
+                            os.DisplayOne(ot);
+                        }
+                    }                  
                     break;
-
-            }
-            if (o == null)
-                Console.WriteLine("订单不存在！");
-            else
-            {
-                od = o.CheckOrderDtailsId(o.Id);
-                Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
-                Console.WriteLine(o.Id + "\t" + o.CName + "\t" + o.GName+"\t"+od.Goods.Price
-                                  +"\t"+od.Goods.Number+"\t"+(od.Goods.Price* od.Goods.Number));
             }
             Console.ReadKey();
         }
@@ -167,6 +195,23 @@ namespace OrderManage
             Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
             os.DisplayOrder();
             Console.ReadKey();
+        }
+        public static int PositiveNumber()
+        {
+            int num=0;
+            while (int.TryParse(Console.ReadLine(), out num) != true || num <= 0)
+                Console.Write("请重新输入一个正数：");
+            return num;
+        }
+        public static string StringNotNull()
+        {
+            string str =Console.ReadLine();
+            while(str=="")
+            {
+                Console.Write("请重新输入一个非空字符串：");
+                str = Console.ReadLine();
+            }
+            return str;
         }
     }
 }

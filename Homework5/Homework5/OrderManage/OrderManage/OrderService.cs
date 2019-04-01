@@ -26,6 +26,8 @@ namespace OrderManage
         public void DeleteOrder(Order order)
         {
             OrderList.Remove(order);
+            Console.WriteLine("订单已删除！");
+            Console.ReadKey();
         }
 
         //修改订单 
@@ -39,6 +41,8 @@ namespace OrderManage
             else
             {
                 AddOrder(order);
+                Console.WriteLine("订单已修改！");
+                Console.ReadKey();
 
             }
         }
@@ -55,35 +59,45 @@ namespace OrderManage
             return null;
         }
         //根据客户名查询
-        public Order CheckOrderCusName(string name)
+        public List<Order> CheckOrderCusName(string name)
         {
+            List<Order> tmp = null;
             foreach (Order o in OrderList)
             {
                 if (o.CName == name)
-                    return o;
+                    tmp.Add(o);
             }
-            return null;
+            return tmp;
         }
         //根据商品名查询
-        public Order CheckOrderGoodsNmae(String name)
+        public List<Order> CheckOrderGoodsName(string name)
         {
+            List<Order> tmp = null;
             foreach (Order o in OrderList)
             {
                 if (o.GName == name)
-                    return o;
+                    tmp.Add(o);
             }
-            return null;
+            return tmp;
         }
-
-        //显示订单
+        //显示某个订单
+       public void DisplayOne(Order o)
+        {
+            if (o == null)
+                Console.WriteLine("订单不存在");
+            else
+            {
+                OrderDetails odts = new OrderDetails();
+                odts = o.CheckOrderDtailsId(o.Id);
+                Console.WriteLine(o.ToStirng()+odts.ToString());
+            }
+        }
+        //显示全部订单
         public void DisplayOrder()
         {
             foreach (Order o in OrderList)
             {
-                OrderDetails od = new OrderDetails();
-                od = o.CheckOrderDtailsId(o.Id);
-                Console.Write(o.Id + "\t" + o.CName + "\t" + o.GName);
-                Console.WriteLine("\t" + od.Goods.Price + "\t" + od.Goods.Number + "\t" + (od.Goods.Number * od.Goods.Price));
+                DisplayOne(o);
             }
         }
     }
