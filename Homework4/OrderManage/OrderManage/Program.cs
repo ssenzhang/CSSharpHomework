@@ -145,19 +145,26 @@ namespace OrderManage
                 case 1:
                     Console.Write("输入订单号：");
                     o=os.CheckOrderId(int.Parse(Console.ReadLine()));
+                    Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
                     os.DisplayOne(o);
                     break;
                 case 2:
                     Console.Write("输入客户名：");
-                    foreach(Order ot in os.CheckOrderCusName(Console.ReadLine()))
+                    string str1 = Console.ReadLine();
+                    Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
+                    foreach (Order ot in os.CheckOrderCusName(str1))
                     {
                         os.DisplayOne(ot);
                     }
                     break;
                 case 3:
                     Console.Write("输入商品名：");
-                    o=os.CheckOrderGoodsNmae(Console.ReadLine());
-                    os.DisplayOne(o);
+                    string str2 = Console.ReadLine();
+                    Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
+                    foreach (Order ot in os.CheckOrderGoodsName(str2))
+                    {
+                        os.DisplayOne(ot);
+                    }
                     break;
 
             }

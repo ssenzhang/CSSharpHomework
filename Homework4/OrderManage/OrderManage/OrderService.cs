@@ -66,14 +66,15 @@ namespace OrderManage
             return tmp;
         }
         //根据商品名查询
-        public Order CheckOrderGoodsNmae(String name)
+        public List<Order> CheckOrderGoodsName(string name)
         {
+            List<Order> tmp = new List<Order>();
             foreach (Order o in OrderList)
             {
                 if (o.GName == name)
-                    return o;
+                    tmp.Add(o);
             }
-            return null;
+            return tmp;
         }
         //显示某个订单
         public void DisplayOne(Order o)
