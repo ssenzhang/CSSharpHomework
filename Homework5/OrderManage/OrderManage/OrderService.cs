@@ -9,13 +9,16 @@ namespace OrderManage
     class OrderService
     {
         //订单基本信息储存在OrderList中
-        private static List<Order> OrderList = new List<Order>();
+        public  static List<Order> OrderList = new List<Order>();
+        //按订单号升序排列
+        public List<Order> OrderById = OrderList.OrderBy(o => o.Id).ToList<Order>();  //降序，OrderByDescending
+        //按总金额排序
+        public List<Order> OrderByTotalPrice = OrderList.OrderBy(o => o.CheckOrderDtailsId(o.Id).Goods.Price * o.CheckOrderDtailsId(o.Id).Goods.Number).ToList<Order>();
 
         public OrderService()
         {
             
         }
-
         //添加订单
         public void AddOrder(Order order)
         {
@@ -33,7 +36,7 @@ namespace OrderManage
         //修改订单 
         public void ModifyOrder(int id)
         {
-            Order order = CheckOrderId(id);
+            Order order = CheckId(id);
 
             if (order == null)
                 Console.WriteLine("没有此订单！");
@@ -49,7 +52,7 @@ namespace OrderManage
 
         //查询订单
         //根据订单号查询
-        public Order CheckOrderId(int id)
+        public Order CheckId(int id)
         {
             foreach (Order o in OrderList)
             {
@@ -59,26 +62,28 @@ namespace OrderManage
             return null;
         }
         //根据客户名查询
-        public List<Order> CheckOrderCusName(string name)
+        public List<Order> CheckCusName(string name)
         {
-            List<Order> tmp = null;
+            List<Order> tmp = new List<Order>();
             foreach (Order o in OrderList)
             {
                 if (o.CName == name)
                     tmp.Add(o);
             }
-            return tmp;
+            List<Order> TmpById = tmp.OrderBy(o => o.Id).ToList<Order>();
+            return TmpById;
         }
         //根据商品名查询
-        public List<Order> CheckOrderGoodsName(string name)
+        public List<Order> CheckGoodsName(string name)
         {
-            List<Order> tmp = null;
+            List<Order> tmp = new List<Order>();
             foreach (Order o in OrderList)
             {
                 if (o.GName == name)
                     tmp.Add(o);
             }
-            return tmp;
+            List<Order> TmpById = tmp.OrderBy(o => o.Id).ToList<Order>();
+            return TmpById;
         }
         //显示某个订单
        public void DisplayOne(Order o)
@@ -92,13 +97,29 @@ namespace OrderManage
                 Console.WriteLine(o.ToStirng()+odts.ToString());
             }
         }
-        //显示全部订单
-        public void DisplayOrder()
+        //显示List里的Order
+        public void  DisplayList(List<Order> list)
         {
-            foreach (Order o in OrderList)
+            Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
+            foreach (Order o in list)
             {
                 DisplayOne(o);
             }
+        }
+        //按添加顺序显示订单
+        public void Display()
+        {
+            DisplayList(OrderList);
+        }
+        //按订单号升序显示订单
+        public void DisplayById()
+        {
+            DisplayList(OrderById);
+        }
+        //按总金额升序显示订单
+        public void DisplayByPrice()
+        {
+            DisplayList(OrderByTotalPrice);
         }
     }
 }

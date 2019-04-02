@@ -24,7 +24,7 @@ namespace OrderManage
                 Console.WriteLine("        5.显示订单        ");
                 Console.WriteLine("        6.退出系统        ");
                 Console.WriteLine("--------------------------");
-                key = int.Parse(Console.ReadLine());
+                key = PositiveNumber();
                 switch (key)
                 {
                     case 1:
@@ -42,14 +42,14 @@ namespace OrderManage
                     case 4:
                         //查询订单
                         MyCheckOrder();
+                        Console.ReadKey();
                         break;
                     case 5:
                         //显示订单
                         ShowOrder();
                         break;
                     default:
-                        //错误选项
-                        //key = 6;
+                        //错误选项,重新选择
                         break;
                 }
             }
@@ -62,7 +62,7 @@ namespace OrderManage
             Order o = new Order();
             Console.Write("输入订单号：");
             int id =PositiveNumber();
-            while (os.CheckOrderId(id) != null)
+            while (os.CheckId(id) != null)
             {
                 Console.WriteLine("订单已存在！");
                 Console.ReadKey();
@@ -91,14 +91,14 @@ namespace OrderManage
             OrderService os = new OrderService();
             Console.Write("输入要删除的订单号：");
             int id = PositiveNumber();
-            if (os.CheckOrderId(id) == null)
+            if (os.CheckId(id) == null)
             {
                 Console.WriteLine("订单不存在！");
                 Console.ReadKey();
                 return;
             }
             else
-                os.DeleteOrder(os.CheckOrderId(id));
+                os.DeleteOrder(os.CheckId(id));
         }
         //修改订单
         public  static void MyModifyOrder()
@@ -107,14 +107,14 @@ namespace OrderManage
             Order o = new Order();
             Console.Write("输入要修改的订单号：");
             int id = PositiveNumber();
-            while (os.CheckOrderId(id) == null)
+            while (os.CheckId(id) == null)
             {
                 Console.WriteLine("订单不存在！");
                 Console.ReadKey();
                 return;
             }
-            o = os.CheckOrderId(id);
-            Console.Write("输入选项（1.客户名 2.商品名 3.商品数量）：");
+            o = os.CheckId(id);
+            Console.Write("输入选项(1.客户名 2.商品名 3.商品数量)：");
             int mkey = int.Parse(Console.ReadLine());
             
             switch (mkey)
@@ -140,13 +140,13 @@ namespace OrderManage
             OrderService os = new OrderService();
             Order o = new Order();
             OrderDetails od = new OrderDetails();
-            Console.Write("输入选项（1.订单号 2.客户名 3.商品名）：");
-            int ckey = int.Parse(Console.ReadLine());
+            Console.Write("输入选项(1.订单号 2.客户名 3.商品名)：");
+            int ckey = PositiveNumber();
             switch(ckey)
             {
                 case 1:
                     Console.Write("输入订单号：");
-                    o=os.CheckOrderId(PositiveNumber());
+                    o=os.CheckId(PositiveNumber());
                     if (o == null)
                         Console.WriteLine("订单不存在！");
                     else
@@ -158,32 +158,18 @@ namespace OrderManage
                 case 2:
                     Console.Write("输入客户名：");
                     string str1 = StringNotNull();
-                    if (os.CheckOrderCusName(str1) == null)
+                    if (os.CheckCusName(str1).Count==0)
                         Console.WriteLine("订单不存在！");
                     else
-                    {
-                        Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
-                        foreach (Order ot in os.CheckOrderCusName(str1))
-                        {
-                            os.DisplayOne(ot);
-                        }
-                    }
+                        os.DisplayList(os.CheckCusName(str1));
                     break;
                 case 3:
                     Console.Write("输入商品名：");
                     string str2 = StringNotNull();
-                    if (os.CheckOrderGoodsName(str2) == null)
-                    {
+                    if (os.CheckGoodsName(str2).Count == 0)    //os.CheckGoodsName(str2)==null,error!
                         Console.WriteLine("订单不存在！");
-                    }
                     else
-                    {
-                        Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
-                        foreach (Order ot in os.CheckOrderGoodsName(str2))
-                        {
-                            os.DisplayOne(ot);
-                        }
-                    }                  
+                        os.DisplayList(os.CheckGoodsName(str2));              
                     break;
             }
             Console.ReadKey();
@@ -191,11 +177,29 @@ namespace OrderManage
         //显示订单内容
         public static void ShowOrder()
         {
+            int dkey = 0;
             OrderService os = new OrderService();
-            Console.WriteLine("订单号\t客户名\t商品名\t单价\t数量\t总价");
-            os.DisplayOrder();
-            Console.ReadKey();
+            Console.WriteLine("输入选项(1.按添加顺序 2.按订单号升序 3.按总金额升序 4.退出查询)：");
+            while (dkey != 4)
+            {
+                dkey = PositiveNumber();
+                switch (dkey)
+                {
+                    case 1:
+                        os.Display();
+                        break;
+                    case 2:
+                        os.DisplayById();
+                        break;
+                    case 3:
+                        os.DisplayByPrice();
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
+        //输入一个正数
         public static int PositiveNumber()
         {
             int num=0;
@@ -203,6 +207,7 @@ namespace OrderManage
                 Console.Write("请重新输入一个正数：");
             return num;
         }
+        //输入非空字符串
         public static string StringNotNull()
         {
             string str =Console.ReadLine();
