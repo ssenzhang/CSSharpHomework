@@ -12,7 +12,7 @@ namespace OrderManage
         public static void Main(string[] args)
         {
             int key=0;
-            while (key != 6)
+            while (key != 8)
             {
                 Console.Clear();
                 Console.WriteLine("*******订单管理系统*******");
@@ -22,7 +22,9 @@ namespace OrderManage
                 Console.WriteLine("        3.修改订单        ");
                 Console.WriteLine("        4.查询订单        ");
                 Console.WriteLine("        5.显示订单        ");
-                Console.WriteLine("        6.退出系统        ");
+                Console.WriteLine("        6.打印XML文件     ");
+                Console.WriteLine("        7.从XML获取数据   ");
+                Console.WriteLine("        8.退出系统        ");
                 Console.WriteLine("--------------------------");
                 key = PositiveNumber();
                 switch (key)
@@ -47,6 +49,16 @@ namespace OrderManage
                     case 5:
                         //显示订单
                         ShowOrder();
+                        break;
+                    case 6:
+                        //显示XML文件
+                        OrderService os1 = new OrderService();
+                        os1.Export();
+                        break;
+                    case 7:
+                        //读XML文件获取数据
+                        OrderService os2 = new OrderService();
+                        os2.Import();
                         break;
                     default:
                         //错误选项,重新选择
@@ -146,7 +158,8 @@ namespace OrderManage
             {
                 case 1:
                     Console.Write("输入订单号：");
-                    o=os.CheckId(PositiveNumber());
+                    //o=os.CheckId(PositiveNumber());
+                    o = os.QueryById(PositiveNumber());
                     if (o == null)
                         Console.WriteLine("订单不存在！");
                     else
@@ -158,18 +171,18 @@ namespace OrderManage
                 case 2:
                     Console.Write("输入客户名：");
                     string str1 = StringNotNull();
-                    if (os.CheckCusName(str1).Count==0)
+                    if (/*os.CheckCusName(str1).Count==0*/os.QueryByCusName(str1).Count==0)
                         Console.WriteLine("订单不存在！");
                     else
-                        os.DisplayList(os.CheckCusName(str1));
+                        os.DisplayList(/*os.CheckCusName(str1)*/os.QueryByCusName(str1));
                     break;
                 case 3:
                     Console.Write("输入商品名：");
                     string str2 = StringNotNull();
-                    if (os.CheckGoodsName(str2).Count == 0)    //os.CheckGoodsName(str2)==null,error!
+                    if (/*os.CheckGoodsName(str2).Count == 0*/os.QueryByGName(str2).Count==0)    //os.CheckGoodsName(str2)==null,error!
                         Console.WriteLine("订单不存在！");
                     else
-                        os.DisplayList(os.CheckGoodsName(str2));              
+                        os.DisplayList(os.QueryByGName(str2));              
                     break;
             }
             Console.ReadKey();
