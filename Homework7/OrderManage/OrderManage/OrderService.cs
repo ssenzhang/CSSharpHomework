@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace OrderManage
 {
-    class OrderService
+    public class OrderService
     {
         //订单基本信息储存在OrderList中
         public static List<Order> OrderList = new List<Order>();
@@ -34,8 +34,6 @@ namespace OrderManage
         public void DeleteOrder(Order order)
         {
             OrderList.Remove(order);
-            Console.WriteLine("订单已删除！");
-            Console.ReadKey();
         }
 
         //修改订单 

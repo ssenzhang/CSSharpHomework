@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderManage
 {
-    class Program
+    public class Program
     {
         
         public static void Main(string[] args)
@@ -98,7 +98,7 @@ namespace OrderManage
             Console.ReadKey();
         }
         //删除订单
-        public  static void MyDeleteOrder()
+        public static void MyDeleteOrder()
         {
             OrderService os = new OrderService();
             Console.Write("输入要删除的订单号：");
@@ -110,7 +110,11 @@ namespace OrderManage
                 return;
             }
             else
+            {
                 os.DeleteOrder(os.CheckId(id));
+                Console.WriteLine("订单已删除！");
+                Console.ReadKey();
+            }
         }
         //修改订单
         public  static void MyModifyOrder()

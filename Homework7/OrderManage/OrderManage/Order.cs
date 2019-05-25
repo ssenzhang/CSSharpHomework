@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderManage
 {
-	class Order:IComparable
+	public class Order:IComparable
 	{
         //订单细节储存在DetailsList中
         private static List<OrderDetails> DetailsList = new List<OrderDetails>();

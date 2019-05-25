@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrderManage
 {
-    class Goods
+   public  class Goods
     {
         public Goods()
         {
