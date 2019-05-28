@@ -11,13 +11,14 @@ namespace OrderManageWF
         private List<OrderDetails> details = new List<OrderDetails>();       //储存某个订单的details
         public Order() { }
 
-        public Order(int id, string name)
+        public Order(int id, Customer c)
         {
             Id = id;
-            CName = name;
+            Cus = c;
         }
         public int Id { get; set; }
-        public string CName { get; set; }
+        public Customer Cus { get; set; }
+        public string CName { get => Cus != null ? Cus.Name : ""; }
         public float TPrice { get => details.Sum(d => d.Price); }         //某个订单总价格
         
    

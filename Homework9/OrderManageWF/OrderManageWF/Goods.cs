@@ -10,11 +10,13 @@ namespace OrderManageWF
     {
         private float price;
         public Goods() { }
-        public Goods(string name, float price)    //名字，单价
+        public Goods(int id,string name, float price)    //名字，单价
         {
+            this.Id = id;
             this.Name = name;
             this.Price = price;
         }
+        public int Id { get; set; }
         public string Name { get; set; }
         public float Price
         {
@@ -36,7 +38,7 @@ namespace OrderManageWF
 
         public override int GetHashCode()
         {
-            return 2108858624 + Name.GetHashCode();
+            return 2108858624 + Id.GetHashCode();
         }
         public override string ToString()
         {

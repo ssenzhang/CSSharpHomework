@@ -31,13 +31,14 @@
             this.components = new System.ComponentModel.Container();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.customerBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.orderBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.goodsDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.uPriceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.numberDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.priceDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.detailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.orderBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.goodsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -47,9 +48,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.customerBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.orderBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.detailsBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.orderBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.goodsBindingSource)).BeginInit();
             this.SuspendLayout();
             // 
@@ -63,18 +65,22 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.DataSource = this.customerBindingSource;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Sam",
-            "Alen",
-            "Betty",
-            "Jansen",
-            "Jacky"});
             this.comboBox1.Location = new System.Drawing.Point(326, 57);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(180, 20);
             this.comboBox1.TabIndex = 1;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // customerBindingSource
+            // 
+            this.customerBindingSource.DataSource = typeof(OrderManageWF.Customer);
+            this.customerBindingSource.CurrentChanged += new System.EventHandler(this.bindingSource1_CurrentChanged);
+            // 
+            // orderBindingSource
+            // 
+            this.orderBindingSource.DataSource = typeof(OrderManageWF.Order);
             // 
             // dataGridView1
             // 
@@ -123,10 +129,7 @@
             // 
             this.detailsBindingSource.DataMember = "Details";
             this.detailsBindingSource.DataSource = this.orderBindingSource;
-            // 
-            // orderBindingSource
-            // 
-            this.orderBindingSource.DataSource = typeof(OrderManageWF.Order);
+            this.detailsBindingSource.CurrentChanged += new System.EventHandler(this.detailsBindingSource_CurrentChanged);
             // 
             // comboBox2
             // 
@@ -141,6 +144,7 @@
             // goodsBindingSource
             // 
             this.goodsBindingSource.DataSource = typeof(OrderManageWF.Goods);
+            this.goodsBindingSource.CurrentChanged += new System.EventHandler(this.bindingSource1_CurrentChanged_1);
             // 
             // textBox2
             // 
@@ -168,6 +172,7 @@
             this.button2.TabIndex = 6;
             this.button2.Text = "保存订单";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // label1
             // 
@@ -225,9 +230,10 @@
             this.Name = "Form2";
             this.Text = "Form2";
             this.Load += new System.EventHandler(this.Form2_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.customerBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.orderBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.detailsBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.orderBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.goodsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -249,10 +255,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.BindingSource detailsBindingSource;
         private System.Windows.Forms.BindingSource orderBindingSource;
-        private System.Windows.Forms.BindingSource goodsBindingSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn goodsDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn uPriceDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn numberDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn priceDataGridViewTextBoxColumn;
+        private System.Windows.Forms.BindingSource customerBindingSource;
+        private System.Windows.Forms.BindingSource goodsBindingSource;
     }
 }

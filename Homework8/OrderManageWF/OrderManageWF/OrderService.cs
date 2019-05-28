@@ -11,61 +11,60 @@ namespace OrderManageWF
     public class OrderService
     {
 
-        private List<Order> orderList;
+        private List<Order> OrderList;
 
         public OrderService()
         {
-            orderList = new List<Order>();
+            OrderList = new List<Order>();
         }
-        public void AddOrder(Order order)
+        public void AddOrder(Order o)
         {
-            if (orderList.Contains(order))
+            if (OrderList.Contains(o))
             {
-                throw new ApplicationException($"the orderList contains an order with ID {order.Id} !");
+                throw new ApplicationException($"Order {o.Id} already exist!");
             }
-            orderList.Add(order);
+            OrderList.Add(o);
         }
 
         public void Update(Order order)
         {
             RemoveOrder(order.Id);
-            orderList.Add(order);
+            OrderList.Add(order);
         }
-        public Order GetById(int orderId)
+        public Order QueryById(int id)
         {
-            return orderList.FirstOrDefault(o => o.Id == orderId);
+            return OrderList.FirstOrDefault(o => o.Id == id);
         }
         public void RemoveOrder(int orderId)
         {
-            orderList.RemoveAll(o => o.Id == orderId);
+            OrderList.RemoveAll(o => o.Id == orderId);
         }
         public List<Order> QueryAll()
         {
-            return orderList;
+            return OrderList;
         }
-
-        public List<Order> QueryByGoodsName(string goodsName)
+        public List<Order> QueryByGName(string name)
         {
-            var query = orderList.Where(
+            var query = OrderList.Where(
               o => o.Details.Exists(
-                d => d.Goods.Name == goodsName));
+                d => d.Goods.Name == name));
             return query.ToList();
         }
-        public List<Order> QueryByTotalAmount(float totalAmount)
+        public List<Order> QueryByTPrice(float totalAmount)
         {
-            var query = orderList.Where(o => o.TPrice >= totalAmount);
+            var query = OrderList.Where(o => o.TPrice >= totalAmount);
             return query.ToList();
         }
-        public List<Order> QueryByCustomerName(string customerName)
+        public List<Order> QueryByCName(string name)
         {
-            var query = orderList
-                .Where(o => o.CName == customerName);
+            var query = OrderList
+                .Where(o => o.CName == name);
             return query.ToList();
         }
 
-        public void Sort(Comparison<Order> comparison)
+        public void Sort(Comparison<Order> cmp)
         {
-            orderList.Sort(comparison);
+            OrderList.Sort(cmp);
         }
 
         public void Export(String fileName)
@@ -75,7 +74,7 @@ namespace OrderManageWF
             XmlSerializer xs = new XmlSerializer(typeof(List<Order>));
             using (FileStream fs = new FileStream(fileName, FileMode.Create))
             {
-                xs.Serialize(fs, this.orderList);
+                xs.Serialize(fs, this.OrderList);
             }
         }
         public List<Order> Import(string path)
